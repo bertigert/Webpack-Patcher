@@ -6,3 +6,8 @@ This script itself has no functionality other than providing functionality to ot
 Any script using this script should mention that the user needs to install this in order for the script to work.
 
 Also on Desktop using [DeezMod](https://github.com/bertigert/DeezMod): https://github.com/bertigert/DeezMod/tree/main/plugins/webpack_patcher
+
+## Links
+[Greazyfork](https://greasyfork.org/en/scripts/547520-webpack-patcher)
+
+[GitHub](https://github.com/bertigert/Deezer-Webpack-Patcher)
