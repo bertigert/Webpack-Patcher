@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name        Webpack Patcher
+// @name        Deezer Webpack Patcher
 // @description Library script to patch the code of webpack modules at runtime. Exposes a global register_webpack_patches function.
 // @author      bertigert
 // @version     1.0.0
-// @icon        https://www.google.com/s2/favicons?sz=64&domain=
+// @icon        https://www.google.com/s2/favicons?sz=64&domain=deezer.com
 // @namespace   Violentmonkey Scripts
-// @match       https://www.deezer.com/us/*
+// @match       https://www.deezer.com/*
 // @grant       none
 // @run-at      document-start
 // ==/UserScript==
@@ -53,7 +53,7 @@
         }
 
         /**
-         * Register a module to be patched when it becomes available
+         * Register a module to be patched when it becomes available. Should be called as early as possible.
          * @param {number} module_id - The webpack module ID to target
          * @param {Array} methods - Array of method patch configurations from PATCHES structure
          */
@@ -78,7 +78,7 @@
         }
 
         /**
-         * Register multiple patches at once
+         * Register multiple patches at once. Should be called as early as possible.
          * @param {Object} patches - The PATCHES structure mapping module IDs to patch configurations
          */
         register_patches(patches) {
@@ -356,7 +356,7 @@
         }
 
         /**
-         * Register multiple patches from a PATCHES object.
+         * Register multiple patches from a PATCHES object. Should be called as early as possible.
          *
          * @param {Object} patches - PATCHES object with the following structure:
          *
