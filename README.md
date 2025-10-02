@@ -4,7 +4,8 @@ Library script to patch the code of webpack modules at runtime. Exposes a global
 ## Usage
 To use it, take a look at the documentation of the exposed function in the source. The JSDocs provide a structure for how patches should look.
 
-This script was originally designed for Deezer, but it should hypothetically work for other sites too. You should only need to replace the global Webpack array object's name with the one your site is using.
+This script was originally designed for Deezer, but it should hypothetically work for other sites too.\
+You should only need to replace the global Webpack array object's name with the one your site is using and update the userscript metadata to match your site.
 
 #### This script itself has no functionality other than providing functionality to other scripts.
 
