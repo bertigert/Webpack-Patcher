@@ -1,9 +1,14 @@
-# Deezer-Webpack-Patcher
-Library script to patch the code of webpack modules at runtime. Exposes a global register_webpack_patches function.
+# Webpack Patcher
+Library script to patch the code of webpack modules at runtime. Exposes a global register_webpack_patches function which can be used by any other script.
 
-This script itself has no functionality other than providing functionality to other scripts.
+## Usage
+To use it, take a look at the documentation of the exposed function in the source. The JSDocs provide a structure for how patches should look.
 
-Any script using this script should mention that the user needs to install this in order for the script to work.
+This script was originally designed for Deezer, but it should hypothetically work for other sites too. You should only need to replace the global Webpack array object's name with the one your site is using.
+
+#### This script itself has no functionality other than providing functionality to other scripts.
+
+#### Any script using this script should mention that the user needs to install this in order for the script to work.
 
 Also on Desktop using [DeezMod](https://github.com/bertigert/DeezMod): https://github.com/bertigert/DeezMod/tree/main/plugins/webpack_patcher
 
