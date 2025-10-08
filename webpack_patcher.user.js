@@ -843,7 +843,9 @@
     function main(CONFIGURATIONS) {
         const logger = new Logger("[WebpackPatcher]", "debug");
 
-        if (location.hostname in CONFIGURATIONS) {
+        const matching_configuration = CONFIGURATIONS.find(config => config.site_match());
+
+        if (matching_configuration) {
             const webpack_patch_registrar = new WebpackPatchRegistrar(null);
 
             Object.defineProperties(window, {
@@ -886,23 +888,29 @@
             });
 
             logger.log(`Using configuration for ${location.hostname}`);
-            const patcher = WebpackPatcher.initialize(logger, CONFIGURATIONS[location.hostname]);
+            const patcher = WebpackPatcher.initialize(logger, matching_configuration.options || {});
             webpack_patch_registrar.set_patcher(patcher);
         }   
     }
 
-    const CONFIGURATIONS = {
-        "www.deezer.com": {
-            filter_func: (ctx, stack_lines) => {
-                return /\/cache\/js\/runtime\..*?\.js(?::[0-9]+:[0-9]+)?$/.test(stack_lines[stack_lines.length-1]);
+    const CONFIGURATIONS = [
+        {
+            site_match: () => location.hostname === "www.deezer.com" || location.href.includes("deezer-desktop/resources/app.asar/build/index.html"),
+            options: {
+                filter_func: (ctx, stack_lines) => {
+                    return /\/cache\/js\/runtime\..*?\.js(?::[0-9]+:[0-9]+)?$/.test(stack_lines[stack_lines.length-1]);
+                },
             },
         },
-        "discord.com": {
-            filter_func: (ctx, stack_lines) => {
-                return /https:\/\/discord\.com\/assets\/web\..*?\.js/.test(stack_lines[stack_lines.length-1]);
+        {
+            site_match: () => location.hostname === "discord.com",
+            options: {
+                filter_func: (ctx, stack_lines) => {
+                    return /https:\/\/discord\.com\/assets\/web\..*?\.js/.test(stack_lines[stack_lines.length-1]);
+                },
             },
         }
-    };
+    ];
 
     main(CONFIGURATIONS);
 })();

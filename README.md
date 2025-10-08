@@ -108,6 +108,24 @@ We wait for WebpackPatcher to be available, but stop if the global webpack array
 ## Modifying the script for other sites
 The script is meant to be very easily ported to other sites. The only thing which should need changing is the `CONFIGURATIONS` array.
 
+### `CONFIGURATIONS` array
+
+The CONFIGURATIONS constant is an ordered array of configuration objects that let the patcher pick site-specific options automatically. The first configuration for which site_match() is true gets picked, so avoid ambigious filters.
+
+Each entry has the shape:
+- site_match `function` (required) - a function which returns true if this is a site we want to patch
+- options `object` - options passed to the patcher when the site matches. See the `initialize` function for more details.
+
+Structure
+```js
+{
+    site_match: () => location.hostname === "example.com",
+    options: {
+        filter_func: () => {}
+    }
+}
+```
+
 ```js
 /**
  * @param {Object} logger - Logger instance for debug/error output
