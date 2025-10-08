@@ -51,8 +51,8 @@
                     match: /startTyping\(([a-z])\){(.+?)},stop/,
                     replace: (_, $1, $2) => { // this destroys the minified beauty of the code, but it's minified, so who cares
                         return `startTyping:(${$1}) => {
-                            ${WebpackPatcher.placeholders.self}.functions.log("Silent typing enabled:", ${WebpackPatcher.placeholders.self}.data.enabled)
-                            if (!${WebpackPatcher.placeholders.self}.data.enabled) {
+                            ${WebpackPatcher.placeholders.functions}.log("Silent typing enabled:", ${WebpackPatcher.placeholders.data}.enabled)
+                            if (!${WebpackPatcher.placeholders.data}.enabled) {
                                 ${$2}
                             }
                         },stop`;

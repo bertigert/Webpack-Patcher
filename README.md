@@ -67,6 +67,24 @@ WebpackPatcher.register_patches(
 );
 ```
 
+### Usage in other scripts
+An easy way to use this script is the following:
+```js
+(function wait_for_webpack_patcher(){
+    if (window.WebpackPatcher) {
+        logger.debug("Registering webpack patches");
+        window.WebpackPatcher.register({
+            name: name
+        }, PATCHES);
+    } else if (!window.GLOBAL_WEBPACK_ARRAY) { // e.g. webpackChunkdiscord_app for discord.com
+        setTimeout(wait_for_webpack_patcher, 0);
+    } else {
+        logger.warn("Webpack array found, but not patcher, stopping");
+    }
+})();
+```
+We wait for WebpackPatcher to be available, but stop if the global webpack array is found with WebpackPatcher still being unavailable. That's because if that case is true, then something broke in the Webpack Patcher.
+
 ## Modifying the script for other sites
 The script is meant to be very easily ported to other sites. The only thing which should need changing is the `CONFIGURATIONS` array.
 

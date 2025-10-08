@@ -94,7 +94,9 @@
             
             this.placeholder_id = Math.random().toString(36).substring(2, 10); // just to make sure it's unique enough
             this.placeholders = Object.freeze({
-                self: `WEBPACKPATCHER_PLACEHOLDER_SELF_${this.placeholder_id}`
+                self: `WEBPACKPATCHER_PLACEHOLDER_SELF_${this.placeholder_id}`,
+                functions: `WEBPACKPATCHER_PLACEHOLDER_FUNCTIONS_${this.placeholder_id}`,
+                data: `WEBPACKPATCHER_PLACEHOLDER_DATA_${this.placeholder_id}`
             });
 
             this.event_listeners = {
@@ -512,7 +514,9 @@
 
                 // replace placeholders
                 const placeholder_replacements = {
-                    [this.placeholders.self]: `window.WebpackPatcher.Registrars["${registrar_name}"]`
+                    [this.placeholders.self]: `window.WebpackPatcher.Registrars["${registrar_name}"]`,
+                    [this.placeholders.functions]: `window.WebpackPatcher.Registrars["${registrar_name}"].functions`,
+                    [this.placeholders.data]: `window.WebpackPatcher.Registrars["${registrar_name}"].data`
                 };
                 for (const [placeholder, replacement] of Object.entries(placeholder_replacements)) {
                     patched_code = patched_code.replaceAll(placeholder, replacement);
