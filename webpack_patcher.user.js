@@ -2,7 +2,7 @@
 // @name        Webpack Patcher
 // @description Helper script to patch the code of webpack modules at runtime. Exposes a global WebpackPatcher object.
 // @author      bertigert
-// @version     1.0.0
+// @version     2.0.0
 // @icon        https://www.google.com/s2/favicons?sz=64&domain=webpack.js.org
 // @namespace   Webpack Patcher
 // @match       http*://*/*
