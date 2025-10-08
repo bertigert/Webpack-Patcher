@@ -67,6 +67,26 @@ WebpackPatcher.register_patches(
 );
 ```
 
+### Using placeholders
+
+WebpackPatcher provides special placeholder tokens you can use inside replacements. They are available at `window.WebpackPatcher.placeholders` and are replaced with concrete references to your registrar before the patched module code is evaluated.
+
+- `window.WebpackPatcher.placeholders.self` — replaced with `window.WebpackPatcher.Registrars["<your-registrar-name>"]`
+- `window.WebpackPatcher.placeholders.functions` — replaced with `window.WebpackPatcher.Registrars["<your-registrar-name>"].functions`
+- `window.WebpackPatcher.placeholders.data` — replaced with `window.WebpackPatcher.Registrars["<your-registrar-name>"].data`
+
+Example: use a placeholder in a replacement so the patched module calls a helper from your registrar:
+
+```js
+{
+    match: "SOME_GLOBAL",
+    replace: window.WebpackPatcher.placeholders.functions + ".myHelper(arg)"
+}
+```
+
+Important: do not hard-code the internal token strings (they include a random suffix). Always read the values from `window.WebpackPatcher.placeholders` so the correct tokens are used at runtime.
+
+
 ### Usage in other scripts
 An easy way to use this script is the following:
 ```js
