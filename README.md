@@ -147,5 +147,10 @@ See the examples for different sites in [examples](./examples/).
 - https://deezer.com
 - https://discord.com
 
+## Links
+[GitHub](https://github.com/bertigert/Webpack-Patcher)
+
+[Greazyfork](https://greasyfork.org/en/scripts/547520-webpack-patcher)
+
 ### Credits
 [Vencord Web](https://chromewebstore.google.com/detail/cbghhgpcnddeihccjmnadmkaejncjndb) - Inspiration on the hooking method
