@@ -2,7 +2,7 @@
 // @name        Webpack Patcher
 // @description Helper script to patch the code of webpack modules at runtime. Exposes a global WebpackPatcher object.
 // @author      bertigert
-// @version     2.0.0
+// @version     2.0.1
 // @icon        https://www.google.com/s2/favicons?sz=64&domain=webpack.js.org
 // @namespace   Webpack Patcher
 // @match       http*://*/*
@@ -205,25 +205,9 @@
                 this.logger.debug(`Created new registrar: ${registrar_name}`);
             }
 
-            for (const patch of patches) {
-                patch._registrar_name = registrar_name;
-                
-                let found_existing = false;
-                for (const existing_patch of this.patches) {
-                    if (existing_patch.find === patch.find) {
-                        existing_patch.replacements.push(...patch.replacements);
-                        // this.logger.debug(`Merged patch with existing find pattern`);
-                        found_existing = true;
-                        break;
-                    }
-                }
-                
-                if (!found_existing) {
-                    this.patches.push(patch);
-                }
-            }
+            this.patches.push(...patches.map(p => ({ ...p, _registrar_name: registrar_name })));
             
-            this.logger.debug(`Registered patches for ${registrar_name}, total patches: ${this.patches.length}`);
+            this.logger.debug(`Registered ${patches.length} patch(es) for ${registrar_name}, total patches: ${this.patches.length}`);
 
             if (!this.hooked) {
                 this.hook_webpack();
