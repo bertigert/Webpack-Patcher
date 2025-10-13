@@ -2,7 +2,7 @@
 // @name        Webpack Patcher
 // @description Helper script to patch the code of webpack modules at runtime. Exposes a global WebpackPatcher object.
 // @author      bertigert
-// @version     2.0.1
+// @version     2.0.2
 // @icon        https://www.google.com/s2/favicons?sz=64&domain=webpack.js.org
 // @namespace   Webpack Patcher
 // @match       http*://*/*
@@ -103,6 +103,19 @@
                 webpack_detected: [],
                 module_registered: [],
                 module_patched: []
+            };
+        }
+
+        /**
+         * Get placeholder replacements for a given registrar name
+         * @param {string} registrar_name - Name of the registrar
+         * @returns {Object} Object mapping placeholders to their replacements
+         */
+        _get_placeholder_replacements(registrar_name) {
+            return {
+                [this.placeholders.self]: `window.WebpackPatcher.Registrars["${registrar_name}"]`,
+                [this.placeholders.functions]: `window.WebpackPatcher.Registrars["${registrar_name}"].functions`,
+                [this.placeholders.data]: `window.WebpackPatcher.Registrars["${registrar_name}"].data`
             };
         }
 
@@ -461,6 +474,11 @@
         _apply_patch(factory, factory_str, matches_and_replacements, module_id, registrar_name) {
             let patched_code;
             
+            if (!Array.isArray(matches_and_replacements) || matches_and_replacements.length === 0) {
+                this.logger.warn(`Module was matched, but no replacements provided`);
+                return { factory, factory_str };
+            }
+
             try {
                 patched_code = factory_str;
                 let total_replacements = 0;
@@ -496,12 +514,7 @@
                     return { factory, factory_str };
                 }
 
-                // replace placeholders
-                const placeholder_replacements = {
-                    [this.placeholders.self]: `window.WebpackPatcher.Registrars["${registrar_name}"]`,
-                    [this.placeholders.functions]: `window.WebpackPatcher.Registrars["${registrar_name}"].functions`,
-                    [this.placeholders.data]: `window.WebpackPatcher.Registrars["${registrar_name}"].data`
-                };
+                const placeholder_replacements = this._get_placeholder_replacements(registrar_name);
                 for (const [placeholder, replacement] of Object.entries(placeholder_replacements)) {
                     patched_code = patched_code.replaceAll(placeholder, replacement);
                 }
